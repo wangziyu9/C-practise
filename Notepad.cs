@@ -165,7 +165,7 @@ namespace 写字板
 
         private void 访问网站ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer.exe", "https://github.com/wangziyu9/CSharp-practise/Notepad.cs");
+            System.Diagnostics.Process.Start("explorer.exe", "https://github.com/wangziyu9/CSharp-practise/blob/master/Notepad.cs");
         }
     }
 }
