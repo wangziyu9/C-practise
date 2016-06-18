@@ -25,9 +25,10 @@ namespace 写字板
             保存ToolStripMenuItem.Enabled = false;
             颜色ToolStripMenuItem.Enabled = false;
             字体ToolStripMenuItem.Enabled = false;
-            toolStripStatusLabel1.Text = "";
+            另存为ToolStripMenuItem.Enabled = true;
+            toolStripStatusLabel2.Text = "";
             saveFlag = true;
-            toolStripStatusLabel2.Text = "请选择文件";
+            toolStripStatusLabel1.Text = "请选择文件";
         }
 
 
@@ -62,6 +63,31 @@ namespace 写字板
             }
         }
 
+        private void 保存ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.FileName != "")
+            {
+                richTextBox1.SaveFile(openFileDialog1.FileName, RichTextBoxStreamType.RichText);
+                toolStripStatusLabel1.Text = "保存完成";
+                saveFlag = true;
+            }
+            //else()
+        }
+
+        private void 另存为ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.Filter = "RTF File(*.rtf)|*.RTF|TXT FILE(*.txt)|*.txt";
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                switch (openFileDialog1.FilterIndex)
+                {
+                    case 1: richTextBox1.SaveFile(saveFileDialog1.FileName, RichTextBoxStreamType.RichText); break;
+                    case 2: richTextBox1.SaveFile(saveFileDialog1.FileName, RichTextBoxStreamType.PlainText); break;
+                }
+                saveFlag = true;
+            }
+        }
+
         private void 颜色ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             colorDialog1.AllowFullOpen = true;
@@ -89,23 +115,7 @@ namespace 写字板
                     richTextBox1.SelectAll();
                 richTextBox1.SelectionFont = fontDialog1.Font;
             }
-
         }
-
-        private void 保存ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            saveFileDialog1.Filter = "RTF File(*.rtf)|*.RTF|TXT FILE(*.txt)|*.txt";
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                switch (openFileDialog1.FilterIndex)
-                {
-                    case 1: richTextBox1.SaveFile(saveFileDialog1.FileName, RichTextBoxStreamType.RichText); break;
-                    case 2: richTextBox1.SaveFile(saveFileDialog1.FileName, RichTextBoxStreamType.PlainText); break;
-                }
-                saveFlag = true;
-            }
-        }
-
 
         private void richTextBox1_SelectionChanged(object sender, EventArgs e)
         {
@@ -113,12 +123,9 @@ namespace 写字板
             颜色ToolStripMenuItem.Enabled = true;
             字体ToolStripMenuItem.Enabled = true;
             
-
             string line = (1 + richTextBox1.GetLineFromCharIndex(richTextBox1.SelectionStart)).ToString();
             string column = (1 + richTextBox1.SelectionStart - (richTextBox1.GetFirstCharIndexFromLine(1 + richTextBox1.GetLineFromCharIndex(richTextBox1.SelectionStart) - 1))).ToString();
             toolStripStatusLabel1.Text = "第 " + line + " 行" + ", " + column + " 列";
-
-
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
@@ -149,7 +156,7 @@ namespace 写字板
             }
             catch (Exception ex)
             {
-                Console.WriteLine("请检查 'source code.rtf' 文件是否和可执行文件在同一目录" + "Exception Message: " + ex.Message);
+                MessageBox.Show("请确定 'source code.rtf' 和可执行文件在同一文件目录下", "找不到文件");
             }
             finally
             {
@@ -159,13 +166,13 @@ namespace 写字板
 
         private void 学生信息ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            richTextBox1.Text = "计科 15-01 \n\n541507010144 \n王子毓\n\n祝老师，身体健康，工作顺利";
+            richTextBox1.Text = "计科 15-01 \n\n541507010144 \n王子毓\n\n\n\n\n\n\n\n\n\n\n祝老师，身体健康，工作顺利";
             saveFlag = true;
         }
 
         private void 访问网站ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("explorer.exe", "https://github.com/wangziyu9/CSharp-practise/blob/master/Notepad.cs");
-        }
+        }      
     }
 }
