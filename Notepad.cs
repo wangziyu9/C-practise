@@ -31,7 +31,10 @@ namespace 写字板
             toolStripStatusLabel1.Text = "请选择文件";
         }
 
-
+        private void 新建ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new Form1().Show();
+        }
 
         private void 打开ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -173,6 +176,98 @@ namespace 写字板
         private void 访问网站ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("explorer.exe", "https://github.com/wangziyu9/CSharp-practise/blob/master/Notepad.cs");
-        }      
+        }
+
+        private void 全选ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.SelectAll();
+        }
+
+        private void 剪切ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Cut();
+        }
+
+        private void 复制ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Copy();
+        }
+
+        private void 粘贴ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Paste();
+        }
+
+        private void 撤销ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Undo();
+        }
+
+        private void New_Click(object sender, EventArgs e)
+        {
+            new Form1().Show();
+        }
+
+        private void Open_Click(object sender, EventArgs e)
+        {
+            if (saveFlag == false)
+            {
+                if (MessageBox.Show("你确定要放弃保存并打开新的文件？", "警告", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
+            openFileDialog1.FileName = "";
+            openFileDialog1.Filter = "RTF File(*.rtf)|*.RTF|TXT FILE(*.txt)|*.txt";
+            openFileDialog1.ShowDialog();
+            if (openFileDialog1.FileName != "")
+            {
+                switch (openFileDialog1.FilterIndex)
+                {
+                    case 1:
+                        richTextBox1.LoadFile(openFileDialog1.FileName, RichTextBoxStreamType.RichText);
+                        break;
+                    case 2:
+                        richTextBox1.LoadFile(openFileDialog1.FileName, RichTextBoxStreamType.PlainText);
+                        break;
+                }
+
+                保存ToolStripMenuItem.Enabled = true;
+                颜色ToolStripMenuItem.Enabled = true;
+                字体ToolStripMenuItem.Enabled = true;
+                saveFlag = true;
+            }
+        }
+
+        private void Save_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.FileName != "")
+            {
+                richTextBox1.SaveFile(openFileDialog1.FileName, RichTextBoxStreamType.RichText);
+                toolStripStatusLabel1.Text = "保存完成";
+                saveFlag = true;
+            }
+        }
+
+        private void Cut_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Cut();
+        }
+
+        private void Copy_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Copy();
+        }
+
+        private void Paste_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Paste();
+        }
+
+        private void About_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", "https://github.com/wangziyu9/CSharp-practise/blob/master/Notepad.cs");
+        }
     }
 }
